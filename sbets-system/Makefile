@@ -7,7 +7,7 @@ test:
 	go test ./...
 
 run-sbets:
-	CONVERTER_SERVICE_URL=http://localhost:8080 go run cmd/sbets/main.go
+	CONVERTER_SERVICE_URL=http://localhost:8085 go run cmd/sbets/main.go
 
 clean:
 	rm -rf bin/

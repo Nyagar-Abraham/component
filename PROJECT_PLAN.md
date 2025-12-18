@@ -3,9 +3,7 @@
 ## 🎯 Project Overview
 **Project Name:** Reusable Currency Converter Component  
 **System:** Student Budget & Expense Tracking System (SBETS)  
-**Language:** Go  
-**Team Size:** 10 Members  
-**Duration:** 8-10 weeks  
+**Language:** Go
 
 ---
 
@@ -62,18 +60,6 @@ currency-converter-project/
 │   │   └── integration_test.go     # End-to-end tests
 │   ├── go.mod                      # SBETS module file
 │   └── README.md                   # SBETS README
-├── examples/                       # CROSS-LANGUAGE EXAMPLES
-│   ├── python-client/
-│   │   ├── converter_client.py     # Python client example
-│   │   └── requirements.txt        # Python dependencies
-│   ├── java-client/
-│   │   ├── ConverterClient.java    # Java client example
-│   │   └── pom.xml                 # Maven dependencies
-│   ├── nodejs-client/
-│   │   ├── converter-client.js     # Node.js client example
-│   │   └── package.json            # NPM dependencies
-│   └── curl-examples.sh            # Raw HTTP examples
-├── docker-compose.yml              # Multi-service deployment
 └── README.md                       # Project overview
 ```
 
@@ -101,65 +87,6 @@ func (c *CurrencyConverter) GetSupportedCurrencies() []string
 func (c *CurrencyConverter) ResetRates()
 ```
 
-#### **REST API Interface (Language-Agnostic)**
-```yaml
-# OpenAPI 3.0 Specification
-paths:
-  /convert:
-    post:
-      summary: Convert currency amount
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                amount: { type: number }
-                from: { type: string }
-                to: { type: string }
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  convertedAmount: { type: number }
-                  originalAmount: { type: number }
-                  fromCurrency: { type: string }
-                  toCurrency: { type: string }
-                  exchangeRate: { type: number }
-                  timestamp: { type: string }
-
-  /currencies:
-    get:
-      summary: Get supported currencies
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  currencies: 
-                    type: array
-                    items: { type: string }
-
-  /rates:
-    post:
-      summary: Set exchange rate
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                from: { type: string }
-                to: { type: string }
-                rate: { type: number }
-    delete:
-      summary: Reset all rates to defaults
-```
 
 #### **Events (WebSocket/HTTP Callbacks)**
 ```go
@@ -212,25 +139,6 @@ CREATE TABLE exchange_rates (
 );
 ```
 
----
-
-## 👥 Team Member Assignments
-
-| Member | Primary Task | Deliverables | Estimated Hours |
-|--------|--------------|--------------|-----------------|
-| **Member 1** | Component Service Design | REST API design, OpenAPI spec, service architecture | 20-25 |
-| **Member 2** | Component Implementation | `currency_converter.go`, `exchange_rates.go`, core logic | 20-25 |
-| **Member 3** | REST API Development | API handlers, middleware, routing, HTTP service | 20-25 |
-| **Member 4** | Cross-Language Clients | Python, Java, Node.js client examples | 20-25 |
-| **Member 5** | SBETS System Development | Expense tracking, budget calculation, converter client | 20-25 |
-| **Member 6** | Database & UI Design | SBETS database, web interface, templates | 20-25 |
-| **Member 7** | Event System & WebSockets | Real-time events, WebSocket implementation | 15-20 |
-| **Member 8** | Error Handling & Validation | API validation, error responses, HTTP status codes | 15-20 |
-| **Member 9** | Documentation & Examples | API docs, client examples, deployment guides | 20-25 |
-| **Member 10** | Testing & Integration | Unit tests, API tests, cross-language integration tests | 25-30 |
-
----
-
 ## 📅 Development Timeline
 
 ### **Week 1-2: Setup & Design**
@@ -247,11 +155,10 @@ CREATE TABLE exchange_rates (
 - [ ] Basic error handling and validation
 - [ ] Unit tests for component
 
-### **Week 5-6: Cross-Language Integration**
+### **Week 5-6: Client Integration**
 - [ ] Python client implementation
-- [ ] Java client implementation
-- [ ] Node.js client implementation
 - [ ] API integration testing
+- [ ] Client documentation
 
 ### **Week 6-7: SBETS System Development**
 - [ ] Expense tracking module
@@ -480,7 +387,7 @@ clean:
 
 ### **Component Reusability**
 - Component accessible via REST API from any language
-- Demonstrated with Python, Java, and Node.js clients
+- Demonstrated with Python client
 - Clear API specification (OpenAPI)
 - Containerized for easy deployment
 - Zero coupling with consuming applications
@@ -506,11 +413,10 @@ clean:
    - REST API design
    - Properties, methods, events, interfaces
 
-2. **Cross-Language Demonstration** (10 min)
+2. **Client Demonstration** (10 min)
    - Python client consuming the service
-   - Java client example
-   - Node.js integration
    - SBETS system using the component
+   - API usage examples
 
 3. **Code Walkthrough** (10 min)
    - Component implementation
@@ -543,43 +449,7 @@ clean:
 - **Risk:** Cross-language compatibility issues
 - **Mitigation:** Early API testing, standard HTTP/JSON protocols
 
----
 
-## 🌐 Cross-Language Usage Examples
-
-### **Python Client**
-```python
-import requests
-
-def convert_currency(amount, from_curr, to_curr):
-    response = requests.post('http://localhost:8080/convert', json={
-        'amount': amount,
-        'from': from_curr,
-        'to': to_curr
-    })
-    return response.json()
-```
-
-### **Java Client**
-```java
-public class ConverterClient {
-    public ConversionResult convert(double amount, String from, String to) {
-        // HTTP client implementation
-    }
-}
-```
-
-### **Node.js Client**
-```javascript
-const axios = require('axios');
-
-async function convertCurrency(amount, from, to) {
-    const response = await axios.post('http://localhost:8080/convert', {
-        amount, from, to
-    });
-    return response.data;
-}
-```
 
 ---
 
