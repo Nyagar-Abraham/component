@@ -93,6 +93,12 @@ func (r *Repository) GetTotalExpenses() (float64, error) {
 	return total, err
 }
 
+func (r *Repository) DeleteExpense(id int) error {
+	query := `DELETE FROM expenses WHERE id = ?`
+	_, err := r.db.Exec(query, id)
+	return err
+}
+
 func (r *Repository) Close() error {
 	return r.db.Close()
 }

@@ -69,6 +69,7 @@ class SBETSApp {
                             → $${expense.convertedAmount.toFixed(2)} USD
                         </div>
                     </div>
+                    <button class="delete-btn" onclick="app.deleteExpense(${expense.id})">Delete</button>
                 </div>
             `).join('');
 
@@ -131,9 +132,32 @@ class SBETSApp {
             button.style.background = '';
         }, 2000);
     }
+
+    async deleteExpense(id) {
+        if (!confirm('Are you sure you want to delete this expense?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/expenses/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                this.loadBudget();
+                this.loadExpenses();
+            } else {
+                const error = await response.text();
+                throw new Error(error);
+            }
+        } catch (error) {
+            console.error('Failed to delete expense:', error);
+            alert('Failed to delete expense: ' + error.message);
+        }
+    }
 }
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new SBETSApp();
+    window.app = new SBETSApp();
 });

@@ -59,3 +59,7 @@ func (s *Service) GetBudget() (*database.Budget, error) {
 		ExpenseCount:  len(expenses),
 	}, nil
 }
+
+func (s *Service) DeleteExpense(id int) error {
+	return s.repo.DeleteExpense(id)
+}

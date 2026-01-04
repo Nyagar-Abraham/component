@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
+	"strconv"
 
 	"sbets-system/pkg/expense"
 
@@ -68,6 +69,25 @@ func (h *Handler) GetBudgetHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(budget)
 }
 
+func (h *Handler) DeleteExpenseHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	
+	expenseID, err := strconv.Atoi(id)
+	if err != nil {
+		http.Error(w, "Invalid expense ID", http.StatusBadRequest)
+		return
+	}
+
+	if err := h.expenseService.DeleteExpense(expenseID); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"status": "expense deleted"})
+}
+
 func (h *Handler) HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if err := h.templates.ExecuteTemplate(w, "index.html", nil); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -88,6 +108,7 @@ func SetupRoutes(expenseService *expense.Service) *mux.Router {
 	// API routes
 	r.HandleFunc("/api/expenses", handler.AddExpenseHandler).Methods("POST")
 	r.HandleFunc("/api/expenses", handler.GetExpensesHandler).Methods("GET")
+	r.HandleFunc("/api/expenses/{id}", handler.DeleteExpenseHandler).Methods("DELETE")
 	r.HandleFunc("/api/budget", handler.GetBudgetHandler).Methods("GET")
 
 	return r
