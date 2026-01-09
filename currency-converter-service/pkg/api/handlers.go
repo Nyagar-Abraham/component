@@ -25,6 +25,11 @@ func (h *Handler) ConvertHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if req.Amount <= 0 {
+		h.writeError(w, http.StatusBadRequest, "INVALID_AMOUNT", "Amount must be greater than zero")
+		return
+	}
+
 	result, err := h.converter.(*converter.CurrencyConverter).ConvertWithResult(req.Amount, req.From, req.To)
 	if err != nil {
 		if convErr, ok := err.(converter.ConversionError); ok {

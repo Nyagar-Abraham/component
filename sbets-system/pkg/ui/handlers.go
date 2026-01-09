@@ -38,6 +38,11 @@ func (h *Handler) AddExpenseHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if req.Amount <= 0 {
+		http.Error(w, "Amount must be greater than zero", http.StatusBadRequest)
+		return
+	}
+
 	if err := h.expenseService.AddExpense(req.Amount, req.Currency, req.Description); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

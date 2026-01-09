@@ -92,6 +92,11 @@ class SBETSApp {
             return;
         }
 
+        if (amount <= 0) {
+            alert('Amount must be greater than zero. Please enter a positive value.');
+            return;
+        }
+
         try {
             const response = await fetch('/api/expenses', {
                 method: 'POST',
